@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme inline {
+  --color-primary: #000000;
+  --color-secondary: #D4AF37;
+  --color-available: #22C55E;
+  --color-booked: #EF4444;
+  --color-pending: #FACC15;
+  --color-requested: #3B82F6;
+  --color-background-soft: #F8F9FA;
+  
+  --font-premium: "Inter", system-ui, sans-serif;
+  
+  --shadow-gold: 0 4px 14px 0 rgba(212, 175, 55, 0.39);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #000000;
+    --foreground: #ffffff;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-premium);
 }
+
+.premium-gradient {
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
+}
+
+/* Hide scrollbar but keep scroll */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Force color classes for Tailwind v4 JIT */
+.bg-available { background-color: #22C55E; }
+.bg-booked    { background-color: #EF4444; }
+.bg-pending   { background-color: #FACC15; }
+.bg-requested { background-color: #3B82F6; }
+.bg-secondary { background-color: #D4AF37; }
+.bg-primary   { background-color: #000000; }
+.bg-background-soft { background-color: #F8F9FA; }
+.text-primary   { color: #000000; }
+.text-secondary { color: #D4AF37; }
+.text-available { color: #22C55E; }
+.text-booked    { color: #EF4444; }
+.text-pending   { color: #FACC15; }
+.text-requested { color: #3B82F6; }
+.border-secondary { border-color: #D4AF37; }
+.shadow-gold  { box-shadow: 0 4px 14px 0 rgba(212,175,55,0.39); }

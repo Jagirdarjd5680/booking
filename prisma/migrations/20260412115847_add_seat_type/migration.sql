@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `seat` ADD COLUMN `type` VARCHAR(191) NOT NULL DEFAULT 'MAIN';
