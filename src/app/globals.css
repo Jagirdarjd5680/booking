@@ -32,6 +32,11 @@ body {
   font-family: var(--font-premium);
 }
 
+/* Prevent zoom on focus in mobile browsers */
+input, select, textarea {
+  font-size: 16px !important;
+}
+
 .premium-gradient {
   background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
 }

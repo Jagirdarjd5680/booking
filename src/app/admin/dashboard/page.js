@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { toast } from 'sonner';
-import { Search, RefreshCw } from 'lucide-react';
+import { Search, RefreshCw, Menu } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Sidebar from '@/components/admin/Sidebar';
 import DashboardStats from '@/components/admin/DashboardStats';
@@ -19,6 +19,7 @@ function DashboardContent() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('ALL');
   const [viewingBooking, setViewingBooking] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const fetchBookings = async () => {
     setLoading(true);
@@ -61,12 +62,24 @@ function DashboardContent() {
 
   return (
     <div className="flex min-h-screen bg-[#FDFDFD]">
-      <Sidebar onLogout={() => router.push('/admin/login')} />
-      <main className="flex-1 p-8">
+      <Sidebar 
+        onLogout={() => router.push('/admin/login')} 
+        isOpen={sidebarOpen} 
+        onClose={() => setSidebarOpen(false)} 
+      />
+      <main className="flex-1 p-4 md:p-8">
         <header className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-black text-primary tracking-tight">{activeBatchName}</h1>
-            <p className="text-gray-400 font-bold text-xs uppercase tracking-widest mt-1">Booking Overview</p>
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden p-3 rounded-2xl bg-white border border-gray-100 text-primary shadow-sm"
+            >
+              <Menu size={20} />
+            </button>
+            <div>
+              <h1 className="text-xl md:text-3xl font-black text-primary tracking-tight">{activeBatchName}</h1>
+              <p className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mt-1">Booking Overview</p>
+            </div>
           </div>
           <button onClick={fetchBookings} className="p-3 rounded-2xl bg-white border border-gray-100 text-gray-400 hover:text-secondary shadow-sm">
             <RefreshCw size={20} className={loading ? 'animate-spin' : ''} />

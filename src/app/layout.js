@@ -9,6 +9,12 @@ export const metadata = {
   description: "Book your seat at God of Graphics Institute of Professional Design.",
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">

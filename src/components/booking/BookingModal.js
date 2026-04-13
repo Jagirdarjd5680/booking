@@ -28,12 +28,15 @@ export default function BookingModal({ isOpen, onClose, children }) {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: '100%', opacity: 0 }}
                   transition={{ type: 'spring', stiffness: 320, damping: 32 }}
-                  className="relative w-full max-w-[420px] bg-white rounded-t-[32px] sm:rounded-[32px] p-6 pb-10 shadow-2xl"
+                  className="relative w-full max-w-[700px] bg-white rounded-t-[32px] sm:rounded-[32px] p-6 pb-10 shadow-2xl"
                 >
-                  {/* Accessibility Title */}
+                  {/* Accessibility Title & Description */}
                   <Dialog.Title className="sr-only">
                     Seat Booking Form
                   </Dialog.Title>
+                  <Dialog.Description className="sr-only">
+                    Fill in your details to book a seat at the institute.
+                  </Dialog.Description>
 
                   {/* Handle bar for mobile bottom sheet feel */}
                   <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-6 sm:hidden" />

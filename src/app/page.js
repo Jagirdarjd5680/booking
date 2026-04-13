@@ -8,6 +8,7 @@ import BatchTabs from '@/components/booking/BatchTabs';
 import SeatGrid from '@/components/booking/SeatGrid';
 import BookingModal from '@/components/booking/BookingModal';
 import BookingForm from '@/components/booking/BookingForm';
+import { HomeSkeleton } from '@/components/ui/Skeleton';
 
 const MY_SEAT_KEY = 'gog_my_seat';
 
@@ -82,9 +83,7 @@ export default function HomePage() {
 
       <div className="pb-20 flex-1">
         {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="w-8 h-8 border-4 border-secondary/30 border-t-secondary rounded-full animate-spin" />
-          </div>
+          <HomeSkeleton />
         ) : (
           <>
             <BatchTabs batches={batches} activeId={activeBatchId} onSelect={setActiveBatchId} />

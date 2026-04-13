@@ -44,15 +44,15 @@ export default function BookingTable({ bookings, onAction, onView }) {
                     <button onClick={() => onView(b)} className="p-2 rounded-lg bg-gray-100 text-gray-500 hover:bg-primary hover:text-white transition-all shadow-sm">
                       <Eye size={14} />
                     </button>
-                    {b.status === 'PENDING' && (
-                      <>
-                        <button onClick={() => onAction(b.id, 'APPROVED')} className="p-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition-all shadow-sm">
-                          <Check size={14} />
-                        </button>
-                        <button onClick={() => onAction(b.id, 'REJECTED')} className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-all shadow-sm">
-                          <X size={14} />
-                        </button>
-                      </>
+                    {(b.status === 'PENDING' || b.status === 'REJECTED') && (
+                      <button onClick={() => onAction(b.id, 'APPROVED')} className="p-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition-all shadow-sm" title="Approve">
+                        <Check size={14} />
+                      </button>
+                    )}
+                    {(b.status === 'PENDING' || b.status === 'APPROVED') && (
+                      <button onClick={() => onAction(b.id, 'REJECTED')} className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-all shadow-sm" title="Reject">
+                        <X size={14} />
+                      </button>
                     )}
                   </div>
                 </td>
