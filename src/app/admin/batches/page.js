@@ -6,7 +6,7 @@ import { Plus, Edit2, Trash2, Calendar, Clock, RefreshCw, Menu } from 'lucide-re
 import Sidebar from '@/components/admin/Sidebar';
 import { useRouter } from 'next/navigation';
 
-export default function BatchesPage() {
+function BatchesContent() {
   const router = useRouter();
   const [batches, setBatches] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -237,3 +237,14 @@ export default function BatchesPage() {
     </div>
   );
 }
+
+import { Suspense } from 'react';
+
+export default function BatchesPage() {
+  return (
+    <Suspense fallback={<div className="p-20 text-center">Loading Batches...</div>}>
+      <BatchesContent />
+    </Suspense>
+  );
+}
+

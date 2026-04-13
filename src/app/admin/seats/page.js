@@ -7,7 +7,7 @@ import Sidebar from '@/components/admin/Sidebar';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
 
-export default function SeatsPage() {
+function SeatsContent() {
   const router = useRouter();
   const [seats, setSeats] = useState([]);
   const [batches, setBatches] = useState([]);
@@ -480,3 +480,14 @@ export default function SeatsPage() {
     </div>
   );
 }
+
+import { Suspense } from 'react';
+
+export default function SeatsPage() {
+  return (
+    <Suspense fallback={<div className="p-20 text-center text-gray-400 font-bold">Loading Seats...</div>}>
+      <SeatsContent />
+    </Suspense>
+  );
+}
+
