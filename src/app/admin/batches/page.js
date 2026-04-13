@@ -66,6 +66,7 @@ function BatchesContent() {
       });
       if (!res.ok) throw new Error();
       toast.success(editingBatch ? 'Updated!' : 'Created!', { id: toastId });
+      window.dispatchEvent(new Event('batchesUpdated'));
       setShowModal(false);
       setEditingBatch(null);
       setFormData({ name: '', startTime: '09:00', endTime: '12:00' });
@@ -93,6 +94,7 @@ function BatchesContent() {
       const res = await fetch(`/api/admin/batches/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error();
       toast.success('Deleted!', { id: toastId });
+      window.dispatchEvent(new Event('batchesUpdated'));
       fetchBatches();
     } catch {
       toast.error('Failed to delete', { id: toastId });

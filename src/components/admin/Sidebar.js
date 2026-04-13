@@ -12,7 +12,18 @@ export default function Sidebar({ onLogout, isOpen, onClose }) {
   const [batches, setBatches] = useState([]);
 
   useEffect(() => {
-    fetch('/api/batches').then(res => res.json()).then(data => setBatches(data));
+    const fetchBatches = () => {
+      fetch('/api/admin/batches')
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) setBatches(data);
+        })
+        .catch(err => console.error("Sidebar fetch error:", err));
+    };
+
+    fetchBatches();
+    window.addEventListener('batchesUpdated', fetchBatches);
+    return () => window.removeEventListener('batchesUpdated', fetchBatches);
   }, []);
 
   return (

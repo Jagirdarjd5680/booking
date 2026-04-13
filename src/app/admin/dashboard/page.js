@@ -15,23 +15,37 @@ function DashboardContent() {
   const currentBatchId = searchParams.get('batchId');
   
   const [bookings, setBookings] = useState([]);
+  const [batches, setBatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('ALL');
   const [viewingBooking, setViewingBooking] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const fetchBookings = async () => {
+  const fetchData = async () => {
     setLoading(true);
-    const res = await fetch('/api/admin/bookings');
-    if (res.status === 401) { router.push('/admin/login'); return; }
-    const data = await res.json();
-    setBookings(Array.isArray(data) ? data : []);
-    setLoading(false);
+    try {
+      const [bookingsRes, batchesRes] = await Promise.all([
+        fetch('/api/admin/bookings'),
+        fetch('/api/admin/batches')
+      ]);
+
+      if (bookingsRes.status === 401) { router.push('/admin/login'); return; }
+      
+      const bookingsData = await bookingsRes.json();
+      const batchesData = await batchesRes.json();
+
+      setBookings(Array.isArray(bookingsData) ? bookingsData : []);
+      setBatches(Array.isArray(batchesData) ? batchesData : []);
+    } catch (error) {
+      toast.error("Failed to load dashboard data");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    fetchBookings();
+    fetchData();
   }, []);
 
   const handleAction = async (id, status) => {
@@ -44,7 +58,7 @@ function DashboardContent() {
       });
       if (!res.ok) throw new Error();
       toast.success('Updated successfully!', { id: toastId });
-      fetchBookings();
+      fetchData();
     } catch {
       toast.error('Failed to update', { id: toastId });
     }
@@ -58,7 +72,13 @@ function DashboardContent() {
     return matchSearch && matchStatus && matchBatch;
   });
 
-  const activeBatchName = currentBatchId ? bookings.find(b => String(b.batchId) === currentBatchId)?.batchName : 'All Batches';
+  const activeBatch = currentBatchId ? batches.find(b => String(b.id) === currentBatchId) : null;
+  const activeBatchName = activeBatch ? activeBatch.name : 'All Batches Overview';
+
+  // Update browser tab title
+  useEffect(() => {
+    document.title = `${activeBatchName} | Admin Dashboard`;
+  }, [activeBatchName]);
 
   return (
     <div className="flex min-h-screen bg-[#FDFDFD]">
@@ -78,10 +98,12 @@ function DashboardContent() {
             </button>
             <div>
               <h1 className="text-xl md:text-3xl font-black text-primary tracking-tight">{activeBatchName}</h1>
-              <p className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mt-1">Booking Overview</p>
+              <p className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mt-1">
+                {activeBatch ? `Managing bookings for ${activeBatch.timing}` : 'System-wide booking overview'}
+              </p>
             </div>
           </div>
-          <button onClick={fetchBookings} className="p-3 rounded-2xl bg-white border border-gray-100 text-gray-400 hover:text-secondary shadow-sm">
+          <button onClick={fetchData} className="p-3 rounded-2xl bg-white border border-gray-100 text-gray-400 hover:text-secondary shadow-sm">
             <RefreshCw size={20} className={loading ? 'animate-spin' : ''} />
           </button>
         </header>
@@ -106,6 +128,7 @@ function DashboardContent() {
     </div>
   );
 }
+
 
 export default function AdminDashboardPage() {
   return (
